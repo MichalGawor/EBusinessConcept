@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% if offer %}
+        <p>{{ offer.AlcoholID.Name }}, {{ offer.ShopID.Name}}, {{offer.DateFrom}}
+        {{offer.DateTo}}</p>
+    {% else %}
+    <p>Such offer does not exist</p>
+{% endif %}
+</body>
+</html>

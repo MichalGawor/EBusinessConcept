@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.base import Model
 from django.db.models.fields import AutoField
 from djmoney.models.fields import MoneyField
-from datetime import datetime
+from datetime import date
 import requests
 
 class Entity(models.Model):
@@ -65,10 +65,17 @@ class Alcohol(models.Model):
 class Offer(models.Model):
     OfferID = models.AutoField(primary_key=True)
     ShopID = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    DateFrom = models.DateField(default=datetime.now)
-    DateTo = models.DateField(default=datetime.now)
+    DateFrom = models.DateField(default=date.today())
+    DateTo = models.DateField(default=date.today())
     AlcoholID = models.ForeignKey(Alcohol, on_delete=models.CASCADE)
     Amount = models.IntegerField(default=0)
     Price = MoneyField(max_digits=10, decimal_places=2, default_currency='PLN')
     Comment = models.CharField(max_length=2000, default='')
 
+    @property
+    def is_actual(self):
+        return not self.DateTo < date.today()
+
+
+    def __str__(self):
+        return str(self.DateFrom) + str(self.DateTo)
